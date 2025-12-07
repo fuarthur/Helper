@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import projectsRouter from './routes/projects';
 import scriptsRouter from './routes/scripts';
 import tasksRouter from './routes/tasks';
@@ -9,7 +8,7 @@ import { initScheduler } from './services/taskScheduler';
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.use('/api/projects', projectsRouter);
 app.use('/api/scripts', scriptsRouter);

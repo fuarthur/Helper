@@ -35,6 +35,8 @@ helper/
 6. Results return to the UI and are recorded as tasks/logs.
 
 ## Getting Started
+0. **Node version**
+   - Use **Node.js >= 18.17** (Next.js enforces this). With `nvm`: `nvm install 18.19 && nvm use 18.19` (a `.nvmrc` is provided).
 1. **Install dependencies**
    ```bash
    npm install
@@ -43,9 +45,10 @@ helper/
    ```bash
    npx prisma generate
    npx prisma db push
-   # optional: apply example migration
+   # optional example migration (idempotent with IF NOT EXISTS, safe to rerun)
    sqlite3 prisma/dev.db < prisma/migrations/000_init/migration.sql
    ```
+   > If you already used `db push`, you don't need the migration. It is kept for reference and demos.
 3. **Run dev servers (Next.js + Express)**
    ```bash
    npm run dev

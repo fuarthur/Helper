@@ -1,12 +1,12 @@
 -- Example migration for SQLite
-CREATE TABLE Project (
+CREATE TABLE IF NOT EXISTS Project (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   path TEXT NOT NULL,
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
   updatedAt DATETIME
 );
-CREATE TABLE Script (
+CREATE TABLE IF NOT EXISTS Script (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   command TEXT,
@@ -16,7 +16,7 @@ CREATE TABLE Script (
   updatedAt DATETIME,
   FOREIGN KEY(projectId) REFERENCES Project(id)
 );
-CREATE TABLE Task (
+CREATE TABLE IF NOT EXISTS Task (
   id TEXT PRIMARY KEY,
   title TEXT NOT NULL,
   status TEXT NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE Task (
   FOREIGN KEY(projectId) REFERENCES Project(id),
   FOREIGN KEY(scriptId) REFERENCES Script(id)
 );
-CREATE TABLE Rule (
+CREATE TABLE IF NOT EXISTS Rule (
   id TEXT PRIMARY KEY,
   type TEXT NOT NULL,
   pattern TEXT,
@@ -38,7 +38,7 @@ CREATE TABLE Rule (
   FOREIGN KEY(scriptId) REFERENCES Script(id),
   FOREIGN KEY(projectId) REFERENCES Project(id)
 );
-CREATE TABLE Log (
+CREATE TABLE IF NOT EXISTS Log (
   id TEXT PRIMARY KEY,
   message TEXT NOT NULL,
   projectId TEXT,
