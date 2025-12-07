@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  name      String
+  path      String
+  scripts   Script[]
+  tasks     Task[]
+  rules     Rule[]
+  logs      Log[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Script {
+  id        String   @id @default(cuid())
+  name      String
+  command   String?
+  path      String?
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId String
+  tasks     Task[]
+  rules     Rule[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Task {
+  id        String   @id @default(cuid())
+  title     String
+  status    String
+  result    String?
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
+  script    Script?  @relation(fields: [scriptId], references: [id])
+  scriptId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Rule {
+  id        String   @id @default(cuid())
+  type      String   // cron | watch
+  pattern   String?
+  schedule  String?
+  script    Script   @relation(fields: [scriptId], references: [id])
+  scriptId  String
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId String
+}
+
+model Log {
+  id        String   @id @default(cuid())
+  message   String
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
+  createdAt DateTime @default(now())
+}
